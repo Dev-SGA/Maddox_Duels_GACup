@@ -21,30 +21,30 @@ st.caption("Click on the icons on the pitch to play the corresponding video anal
 # ==========================
 matches_data = {
     "Vs Los Angeles": [
-        ("DUEL OFENSIVO WON", 65.15, 8.42, "videos/D1 - LA.mp4"),
-        ("DUEL OFENSIVO WON", 84.27, 13.57, "videos/D2 - LA.mp4"),
-        ("DUEL OFENSIVO LOST", 71.64, 25.04, "videos/D3 - LA.mp4"),
-        ("DUEL OFENSIVO LOST", 95.08, 17.39, "videos/D4 - LA.mp4"),
-        ("DUEL OFENSIVO LOST", 103.22, 4.26, "videos/D5 - LA.mp4"),
+        ("DUEL OFENSIVO WON", 65.15, 8.42, None),
+        ("DUEL OFENSIVO WON", 84.27, 13.57, None),
+        ("DUEL OFENSIVO LOST", 71.64, 25.04, None),
+        ("DUEL OFENSIVO LOST", 95.08, 17.39, None),
+        ("DUEL OFENSIVO LOST", 103.22, 4.26, None),
     ],
     "Vs Sockers": [
-        ("FOULED", 106.88, 2.10, "videos/D1 - SK.mp4"),
-        ("DUEL OFENSIVO WON", 111.20, 7.75, "videos/D2 - SK.mp4"),
-        ("DUEL OFENSIVO WON", 105.55, 14.57, "videos/D3 - SK.mp4"),
-        ("DUEL OFENSIVO WON", 48.20, 13.07, "videos/D4 - SK.mp4"),
-        ("DUEL OFENSIVO LOST", 39.22, 17.56, "videos/D5 - SK.mp4"),
+        ("FOULED", 106.88, 2.10, None),
+        ("DUEL OFENSIVO WON", 111.20, 7.75, None),
+        ("DUEL OFENSIVO WON", 105.55, 14.57, None),
+        ("DUEL OFENSIVO WON", 48.20, 13.07, None),
+        ("DUEL OFENSIVO LOST", 39.22, 17.56, None),
     ],
     "Vs Slavia Praha": [
-        ("DUEL OFENSIVO WON", 118.35, 21.22, "videos/D1 - SP.mp4"),
-        ("FOULED", 95.08, 10.41, "videos/D2 - SP.mp4"),
-        ("DUEL OFENSIVO WON", 87.59, 5.09, "videos/D3 - SP.mp4"),
-        ("DUEL OFENSIVO WON", 84.44, 8.75, "videos/D4 - SP.mp4"),
-        ("FOULED", 77.29, 11.41, "videos/D5 - SP.mp4"),
-        ("DUEL OFENSIVO WON", 64.32, 6.42, "videos/D6 - SP.mp4"),
-        ("FOULED", 48.03, 12.74, "videos/D7 - SP.mp4"),
-        ("DUEL OFENSIVO LOST", 102.06, 19.55, "videos/D8 - SP.mp4"),
-        ("DUEL OFENSIVO LOST", 113.03, 16.73, "videos/D9 - SP.mp4"),
-        ("DUEL OFENSIVO LOST", 105.71, 21.71, "videos/D10 - SP.mp4"),
+        ("DUEL OFENSIVO WON", 118.35, 21.22, None),
+        ("FOULED", 95.08, 10.41, None),
+        ("DUEL OFENSIVO WON", 87.59, 5.09, None),
+        ("DUEL OFENSIVO WON", 84.44, 8.75, None),
+        ("FOULED", 77.29, 11.41, None),
+        ("DUEL OFENSIVO WON", 64.32, 6.42, None),
+        ("FOULED", 48.03, 12.74, None),
+        ("DUEL OFENSIVO LOST", 102.06, 19.55, None),
+        ("DUEL OFENSIVO LOST", 113.03, 16.73, None),
+        ("DUEL OFENSIVO LOST", 105.71, 21.71, None),
     ],
 }
 
@@ -92,8 +92,8 @@ def get_style(event_type, has_video):
         return '*', (0.2, 0.6, 0.95, 0.9), 160, 0.8
 
     if "FOULED" in event_type:
-        # Pentagon (Orange)
-        return 'P', (1, 0.5, 0, 0.8), 110, 0.5
+        # Pentagon (Bright Orange, larger for highlight)
+        return 'P', (1, 0.8, 0, 1), 130, 0.5
 
     # Default
     return 'o', (0.5, 0.5, 0.5, 0.8), 90, 0.5
@@ -210,8 +210,8 @@ st.sidebar.divider()
 # Additional filter
 filter_duel_type = st.sidebar.multiselect(
     "Duel Type",
-    ["Offensive"],
-    default=["Offensive"]
+    ["Offensive", "Defensive", "Aerial", "Other"],
+    default=["Offensive", "Other"]
 )
 
 st.sidebar.divider()
@@ -268,6 +268,10 @@ with col_map:
 
         Line2D([0], [0], marker='x', color='w', label='Offensive Duel Lost',
                markeredgecolor=(0.95, 0.1, 0.1, 0.95), markersize=10, markeredgewidth=2.5, linestyle='None'),
+
+        # --- Other Events ---
+        Line2D([0], [0], marker='P', color='w', label='Fouled',
+               markerfacecolor=(1, 0.8, 0, 1), markersize=12, linestyle='None'),
     ]
 
     # Apply legend to graphic
