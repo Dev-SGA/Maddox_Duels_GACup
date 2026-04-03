@@ -245,22 +245,22 @@ col_map, col_vid = st.columns([1, 1])
 
 with col_map:
     st.subheader("Interactive Pitch Map")
-    pitch = Pitch(pitch_type='statsbomb', pitch_color='black', line_color='white')
+    pitch = Pitch(pitch_type='statsbomb', pitch_color='#f8f8f8', line_color='#4a4a4a')
     fig, ax = pitch.draw(figsize=(10, 7))
 
     for _, row in df.iterrows():
         has_vid = row["video"] is not None
         marker, color, size, lw = get_style(row["type"], has_vid)
-        # White border for all icons
-        ec = 'white'
+        # Black border for events that contain video
+        ec = 'black' if has_vid else 'none'
         pitch.scatter(row.x, row.y, marker=marker, s=size, color=color,
                       edgecolors=ec, linewidths=lw, ax=ax, zorder=3)
 
     # Attack Arrow
     ax.annotate('', xy=(70, 83), xytext=(50, 83),
-        arrowprops=dict(arrowstyle='->', color='white', lw=1.5))
+        arrowprops=dict(arrowstyle='->', color='#4a4a4a', lw=1.5))
     ax.text(60, 86, "Attack Direction", ha='center', va='center',
-        fontsize=9, color='white', fontweight='bold')
+        fontsize=9, color='#4a4a4a', fontweight='bold')
 
     # Legend
     legend_elements = [
@@ -278,8 +278,8 @@ with col_map:
         loc='upper left',
         bbox_to_anchor=(0.01, 0.99),
         frameon=True,
-        facecolor='black',
-        edgecolor='white',
+        facecolor='white',
+        edgecolor='#333333',
         fontsize='small',
         title="Match Events",
         title_fontsize='medium',
@@ -352,19 +352,3 @@ with col_vid:
     col1, col2 = st.columns(2)
     col1.metric("Overall Duels", f"{stats['duel_wins']}/{stats['duel_total']}", f"{stats['duel_rate']:.1f}% Success")
     col2.metric("Duels in the Final Third", f"{stats['final_third_wins']}/{stats['final_third_total']}", f"{stats['final_third_rate']:.1f}% Success")
-
-    st.divider()
-    st.subheader("Zone Performance")
-
-    zc1, zc2, zc3 = st.columns(3)
-    zc1.metric("Left Corridor", f"{stats['left_wins']}/{stats['left_total']}", f"{stats['left_rate']:.1f}% Success")
-    zc2.metric("Central Corridor", f"{stats['central_wins']}/{stats['central_total']}", f"{stats['central_rate']:.1f}% Success")
-    zc3.metric("Right Corridor", f"{stats['right_wins']}/{stats['right_total']}", f"{stats['right_rate']:.1f}% Success")
-
-    st.divider()
-    st.subheader("Other Events")
-
-    ec1, ec2, ec3 = st.columns(3)
-    ec1.metric("Blocks", stats["blocks"])
-    ec2.metric("Interceptions", stats["intercepts"])
-    ec3.metric("Fouls", stats["fouls"])
