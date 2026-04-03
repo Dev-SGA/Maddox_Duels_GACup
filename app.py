@@ -28,22 +28,20 @@ matches_data = {
         ("DUEL OFENSIVO LOST", 103.22, 4.26, None),
     ],
     "Vs Sockers": [
-        ("DUEL OFENSIVO WON", 106.88, 2.10, None),
+        ("FOULED", 106.88, 2.10, None),
         ("DUEL OFENSIVO WON", 111.20, 7.75, None),
         ("DUEL OFENSIVO WON", 105.55, 14.57, None),
         ("DUEL OFENSIVO WON", 48.20, 13.07, None),
         ("DUEL OFENSIVO LOST", 39.22, 17.56, None),
     ],
     "Vs Slavia Praha": [
-        ("DUEL OFENSIVO WON", 115.02, 14.90, None),
         ("DUEL OFENSIVO WON", 118.35, 21.22, None),
-        ("DUEL OFENSIVO WON", 95.08, 10.41, None),
+        ("FOULED", 95.08, 10.41, None),
         ("DUEL OFENSIVO WON", 87.59, 5.09, None),
         ("DUEL OFENSIVO WON", 84.44, 8.75, None),
-        ("DUEL OFENSIVO WON", 77.29, 11.41, None),
+        ("FOULED", 77.29, 11.41, None),
         ("DUEL OFENSIVO WON", 64.32, 6.42, None),
-        ("DUEL OFENSIVO WON", 59.17, 19.55, None),
-        ("DUEL OFENSIVO WON", 48.03, 12.74, None),
+        ("FOULED", 48.03, 12.74, None),
         ("DUEL OFENSIVO LOST", 102.06, 19.55, None),
         ("DUEL OFENSIVO LOST", 113.03, 16.73, None),
         ("DUEL OFENSIVO LOST", 105.71, 21.71, None),
@@ -349,6 +347,7 @@ with col_vid:
     st.divider()
     st.subheader("Performance Statistics")
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     col1.metric("Overall Duels", f"{stats['duel_wins']}/{stats['duel_total']}", f"{stats['duel_rate']:.1f}% Success")
     col2.metric("Duels in the Final Third", f"{stats['final_third_wins']}/{stats['final_third_total']}", f"{stats['final_third_rate']:.1f}% Success")
+    col3.metric("Fouls Suffered", stats["fouls"])
