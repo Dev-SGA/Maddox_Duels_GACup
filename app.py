@@ -21,18 +21,18 @@ st.caption("Click on the icons on the pitch to play the corresponding video anal
 # ==========================
 matches_data = {
     "Vs Los Angeles": [
-        ("DUEL OFENSIVO WON", 65.15, 8.42, None),
-        ("DUEL OFENSIVO WON", 84.27, 13.57, None),
-        ("DUEL OFENSIVO LOST", 71.64, 25.04, None),
-        ("DUEL OFENSIVO LOST", 95.08, 17.39, None),
-        ("DUEL OFENSIVO LOST", 103.22, 4.26, None),
+        ("DUEL OFENSIVO WON", 65.15, 8.42, "videos/D1 - LA.mp4"),
+        ("DUEL OFENSIVO WON", 84.27, 13.57, "videos/D2 - LA.mp4"),
+        ("DUEL OFENSIVO LOST", 71.64, 25.04, "videos/D3 - LA.mp4"),
+        ("DUEL OFENSIVO LOST", 95.08, 17.39, "videos/D4 - LA.mp4"),
+        ("DUEL OFENSIVO LOST", 103.22, 4.26, "videos/D5 - LA.mp4"),
     ],
     "Vs Sockers": [
-        ("FOULED", 106.88, 2.10, None),
-        ("DUEL OFENSIVO WON", 111.20, 7.75, None),
-        ("DUEL OFENSIVO WON", 105.55, 14.57, None),
-        ("DUEL OFENSIVO WON", 48.20, 13.07, None),
-        ("DUEL OFENSIVO LOST", 39.22, 17.56, None),
+        ("FOULED", 106.88, 2.10, "videos/D1 - SK.mp4"),
+        ("DUEL OFENSIVO WON", 111.20, 7.75, "videos/D2 - SK.mp4"),
+        ("DUEL OFENSIVO WON", 105.55, 14.57, "videos/D3 - SK.mp4"),
+        ("DUEL OFENSIVO WON", 48.20, 13.07, "videos/D4 - SK.mp4"),
+        ("DUEL OFENSIVO LOST", 39.22, 17.56, "videos/D5 - SK.mp4"),
     ],
     "Vs Slavia Praha": [
         ("DUEL OFENSIVO WON", 118.35, 21.22, None),
