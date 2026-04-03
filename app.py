@@ -151,13 +151,12 @@ def compute_stats(df: pd.DataFrame) -> dict:
     c_wins = central_duels[is_won].shape[0]
     c_rate = (c_wins / c_total * 100) if c_total > 0 else 0
     
-    right_mask = df['y'] > 53.3
-    right_duels = df[right_mask & is_duel]
-    right_total = len(right_duels)
-    right_wins = right_duels[is_won].shape[0]
-    right_rate = (right_wins / right_total * 100) if right_total > 0 else 0
-    
-    # Other events
+    # Final third duels
+    final_third_mask = df['x'] > 80
+    final_third_duels = df[final_third_mask & is_duel]
+    final_third_total = len(final_third_duels)
+    final_third_wins = final_third_duels[is_won].shape[0]
+    final_third_rate = (final_third_wins / final_third_total * 100) if final_third_total > 0 else 0
     blocks = len(df[df['type'].str.contains('BLOQUEIO', case=False)])
     intercepts = len(df[df['type'].str.contains('INTERCEPT', case=False)])
     fouls = len(df[df['type'].str.contains('FOULED', case=False)])
@@ -188,6 +187,9 @@ def compute_stats(df: pd.DataFrame) -> dict:
         "right_total": right_total,
         "right_wins": right_wins,
         "right_rate": right_rate,
+        "final_third_total": final_third_total,
+        "final_third_wins": final_third_wins,
+        "final_third_rate": final_third_rate,
         "blocks": blocks,
         "intercepts": intercepts,
         "fouls": fouls,
@@ -238,22 +240,22 @@ col_map, col_vid = st.columns([1, 1])
 
 with col_map:
     st.subheader("Interactive Pitch Map")
-    pitch = Pitch(pitch_type='statsbomb', pitch_color='#f8f8f8', line_color='#4a4a4a')
+    pitch = Pitch(pitch_type='statsbomb', pitch_color='black', line_color='white')
     fig, ax = pitch.draw(figsize=(10, 7))
 
     for _, row in df.iterrows():
         has_vid = row["video"] is not None
         marker, color, size, lw = get_style(row["type"], has_vid)
-        # Black border for events that contain video
-        ec = 'black' if has_vid else color
+        # White border for all icons
+        ec = 'white'
         pitch.scatter(row.x, row.y, marker=marker, s=size, color=color,
                       edgecolors=ec, linewidths=lw, ax=ax, zorder=3)
 
     # Attack Arrow
     ax.annotate('', xy=(70, 83), xytext=(50, 83),
-        arrowprops=dict(arrowstyle='->', color='#4a4a4a', lw=1.5))
+        arrowprops=dict(arrowstyle='->', color='white', lw=1.5))
     ax.text(60, 86, "Attack Direction", ha='center', va='center',
-        fontsize=9, color='#4a4a4a', fontweight='bold')
+        fontsize=9, color='white', fontweight='bold')
 
     # Legend
     legend_elements = [
@@ -271,8 +273,8 @@ with col_map:
         loc='upper left',
         bbox_to_anchor=(0.01, 0.99),
         frameon=True,
-        facecolor='white',
-        edgecolor='#333333',
+        facecolor='black',
+        edgecolor='white',
         fontsize='small',
         title="Match Events",
         title_fontsize='medium',
@@ -342,16 +344,9 @@ with col_vid:
     st.divider()
     st.subheader("Performance Statistics")
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     col1.metric("Overall Duels", f"{stats['duel_wins']}/{stats['duel_total']}", f"{stats['duel_rate']:.1f}% Success")
-    col2.metric("Offensive Duels", f"{stats['off_wins']}/{stats['off_total']}", f"{stats['off_rate']:.1f}% Success")
-    col3.metric("Defensive Duels", f"{stats['def_wins']}/{stats['def_total']}", f"{stats['def_rate']:.1f}% Success")
-
-    st.divider()
-    st.subheader("Aerial Performance")
-
-    ae1, ae2 = st.columns(2)
-    ae1.metric("Aerial Duels", f"{stats['aerial_wins']}/{stats['aerial_total']}", f"{stats['aerial_rate']:.1f}% Success")
+    col2.metric("Duels in the Final Third", f"{stats['final_third_wins']}/{stats['final_third_total']}", f"{stats['final_third_rate']:.1f}% Success")
 
     st.divider()
     st.subheader("Zone Performance")
