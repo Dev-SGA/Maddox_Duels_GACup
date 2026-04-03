@@ -157,6 +157,14 @@ def compute_stats(df: pd.DataFrame) -> dict:
     final_third_total = len(final_third_duels)
     final_third_wins = final_third_duels[is_won].shape[0]
     final_third_rate = (final_third_wins / final_third_total * 100) if final_third_total > 0 else 0
+    
+    # Right corridor
+    right_mask = df['y'] > 53.3
+    right_duels = df[right_mask & is_duel]
+    right_total = len(right_duels)
+    right_wins = right_duels[is_won].shape[0]
+    right_rate = (right_wins / right_total * 100) if right_total > 0 else 0
+    
     blocks = len(df[df['type'].str.contains('BLOQUEIO', case=False)])
     intercepts = len(df[df['type'].str.contains('INTERCEPT', case=False)])
     fouls = len(df[df['type'].str.contains('FOULED', case=False)])
@@ -181,9 +189,6 @@ def compute_stats(df: pd.DataFrame) -> dict:
         "left_total": left_total,
         "left_wins": left_wins,
         "left_rate": left_rate,
-        "central_total": c_total,
-        "central_wins": c_wins,
-        "central_rate": c_rate,
         "right_total": right_total,
         "right_wins": right_wins,
         "right_rate": right_rate,
